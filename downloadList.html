@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Downloads List</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+    /* Estilo Básico do Corpo */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+#app {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* Estilo do Item do Jogo */
+.game-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    padding: 15px;
+}
+
+.game-item h2 {
+    color: #28a745;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+/* Estilo da Lista de Links */
+.links-list {
+    list-style: none; /* Remove os marcadores de lista */
+    padding: 0;
+    margin: 0;
+}
+
+.links-list li {
+    padding: 8px 0;
+    border-top: 1px solid #eee;
+}
+
+.links-list li:first-child {
+    border-top: none;
+}
+
+.links-list a {
+    text-decoration: none;
+    color: #0056b3;
+    font-weight: 500;
+    display: block; /* Ocupa a largura total para ser mais fácil de clicar */
+    padding: 5px 0;
+    transition: color 0.2s;
+}
+
+.links-list a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* Estilos específicos por tipo de link para destaque */
+.link-main a {
+    font-weight: bold;
+    color: #dc3545; /* Vermelho para o link principal */
+}
+
+.link-update a {
+    color: #ffc107; /* Amarelo/Laranja para a atualização */
+}
+
+.link-page a {
+    font-style: italic;
+    color: #6c757d; /* Cinza para links de página */
+}
+    </style>  
+  </head>
+  <body>
+    <app id="app"></app>
+    <script>
+      // let n = 0;
+      const list = {
+        games: {
+          gtav: {
+            name: 'GTA V',
+            page: 'https://dlpsgame.com/grand-theft-auto-v-ps4-download-free/',
+            link: 'https://akirabox.to/N2p3DjDnGMa5/file',
+            update: 'https://akirabox.to/9QWmpYVBA3EB/file',
+          },
+          theLastOfUs_part2: {
+            name: 'The Last Of Us - Part 2',
+            file: `TLOUSP2-07820_FXDv1.00_[FW702]-[DLPSGAME.COM].part$.rar`,
+            page: 'https://dlpsgame.com/the-last-of-us-part-2-ps4-pkg/',
+            link: 'https://filecrypt.cc/Container/C6A0AF82CC.html',
+            links: [
+              'https://akirabox.to/Y2xm0Ax93RO1/file',
+              'https://akirabox.to/Xkrzo0d9GBOR/file',
+              'https://akirabox.to/EL73gZoYm9Ba/file',
+              'https://akirabox.to/2WVGrM4Ezkx7/file',
+              'https://akirabox.to/1RgzRKnVGbpB/file',
+              'https://akirabox.to/0KezkZxj3D1X/file',
+              'https://akirabox.to/qw1zeZDMGXyn/file',
+              'https://akirabox.to/E1x3Apjgmyk6/file'
+            ],
+            update: 'https://akirabox.to/E9Qz9wE6mOL2/file',
+          },
+          reOutbreak: {
+            name: 'Biohazard Outbreak',
+            link: 'https://www.mediafire.com/file/5tamermtjhwfomq/Biohazard+-+Outbreak-[DLPSGAME.COM].pkg/file',
+          },
+        },
+      };
+
+      // Função principal para renderizar a lista
+      function renderDownloadList() {
+        const app = document.getElementById('app');
+        const games = list.games;
+
+        for( const key in games ) {
+          if( games.hasOwnProperty(key) ) {
+            const game = games[key];
+                    
+            // 1. Cria o contêiner do jogo
+            const gameDiv = document.createElement('div');
+            gameDiv.className = 'game-item';
+                    
+            // 2. Adiciona o título do jogo
+            const title = document.createElement('h2');
+            title.textContent = game.name;
+            gameDiv.appendChild(title);
+
+            // 3. Cria a lista de links
+            const linksList = document.createElement('ul');
+            linksList.className = 'links-list';
+
+            // Função auxiliar para criar um item de link
+            const createLinkItem = (url, text, className = '') => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = url;
+              a.textContent = text;
+              a.target = '_blank'; // Abre o link em uma nova aba
+              if( className ) {
+                li.className = className;
+              }
+              li.appendChild(a);
+              linksList.appendChild(li);
+            };
+
+            // Link da Página Principal
+            if( game.page ) {
+              createLinkItem(game.page, '🔗 Página Oficial / Descrição', 'link-page');
+            }
+
+            // Link Principal (se existir)
+            if( game.link ) {
+              createLinkItem(game.link, '⬇️ Download Principal (PKG/Container)', 'link-main');
+            }
+
+            // Links de Partes (se for um array)
+            if( Array.isArray(game.links) ) {
+              game.links.forEach((url, index) => {
+                // Cria um nome de arquivo se o template 'file' existir
+                let fileName = `Parte ${index + 1}`;
+                if( game.file ) {
+                  // Substitui '$' ou '@' pelo número da parte (index + 1)
+                  fileName = game.file.replace(/[$@]/, index + 1); 
+                }
+                createLinkItem(url, `📦 Parte ${index + 1}: ${fileName}`, 'link-part');
+              });
+            }
+
+            // Link de Atualização (se existir)
+            if( game.update ) {
+              createLinkItem(game.update, '✨ Arquivo de Atualização (Update)', 'link-update');
+            }
+
+            gameDiv.appendChild(linksList);
+                    
+            // Adiciona o bloco do jogo ao contêiner principal
+            app.appendChild(gameDiv);
+          }
+        }
+      }
+
+      addEventListener( 'load', () => {
+        renderDownloadList();
+      } );
+    </script>
+  </body>
+</html>
